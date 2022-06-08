@@ -17,7 +17,8 @@ mse_prompt_configSave() {
   declare -a mseMsgBody=()
 
   local mseInstallationPath="${HOME}/.config/myShellEnv"
-  local msePromptConfigurationDirectory=$(basename -- "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}")
+  local msePromptConfigurationDirectory=$(dirname -- "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}")
+  msePromptConfigurationDirectory=$(realpath "${msePromptConfigurationDirectory}")
 
 
   #
@@ -39,7 +40,7 @@ mse_prompt_configSave() {
     #
     # Identifica os placeholders usados para o estilo do prompt
     # atualmente definido.
-    declare -a msePSQUEMAPH=(${MSE_MD_PROMPT_STYLE_PLACEHOLDER[${MSE_MD_PROMPT_SELECTED_STYLE_NAME}]})
+    declare -a msePSQUEMAPH=(${MSE_MD_PROMPT_STYLE_PLACEHOLDER[${MSE_MD_PROMPT_SELECTED_STYLE_NAME}]// / })
 
 
     #
@@ -61,6 +62,9 @@ mse_prompt_configSave() {
     if [ $? == 0 ]; then
       mse_inter_alertUser "s" "MSE" "${lbl_generic_save}" "" ""
       mseCode=0
+
+      git -C "${mseInstallationPath}" add .
+      git -C "${mseInstallationPath}" commit -m "Change prompt configuration"
     else
       mseMsgBody+=($(mse_str_replacePlaceHolder "${lbl_generic_fileNotFound}" "[[FILE]]" "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"))
       mseMsgBody+=("- ${lbl_generic_checkConfigFile}")

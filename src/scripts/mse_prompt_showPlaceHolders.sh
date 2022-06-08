@@ -36,7 +36,7 @@ mse_prompt_showPlaceHolders() {
   #
   # Identifica os placeholders usados para o estilo do prompt
   # atualmente definido.
-  declare -a msePSQUEMAPH=(${MSE_MD_PROMPT_STYLE_PLACEHOLDER[${MSE_MD_PROMPT_SELECTED_STYLE_NAME}]})
+  declare -a msePSQUEMAPH=(${MSE_MD_PROMPT_STYLE_PLACEHOLDER[${MSE_MD_PROMPT_SELECTED_STYLE_NAME}]// / })
 
   mseRawTable+="Index | Active | Name | Example\n"
   for (( msePHIndex=0; msePHIndex<mseLength; msePHIndex++)); do
