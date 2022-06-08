@@ -1,0 +1,40 @@
+Executar testes
+. src/init.sh
+
+# Mostra o estilo dos prompts
+mse_prompt_showStyles
+mse_prompt_showStyles "list"
+mse_prompt_showStyles 2
+
+# Mostra os placeholders disponíveis e aqueles que se aplicam ao estilo atualmente definido
+mse_prompt_showPlaceHolders
+mse_prompt_showPlaceHolders 1
+
+# mostra as configurações do prompt
+mse_prompt_showConfig
+
+# Testa o retorno do código bruto do prompt configurado
+mse_prompt_retrieveCode
+
+
+# Altera o prompt para o estilo escolhido
+mse_prompt_redefineStyle "simple"
+
+# salva as configurações atuais para poder recuperá-las posteriormente
+mse_prompt_tempConfigSave
+
+# Remove todas as configurações do placeholders
+mse_prompt_resetPlaceHolders
+
+# Efetua uma configuração em cada placeholder do prompt atual (simple)
+mse_prompt_redefinePlaceHolder "PROMPT_SIGN" "4" "BOLD" "NONE"  "DWHITE"
+mse_prompt_redefinePlaceHolder "USERNAME" "4" "NONE" "NONE" "LBLUE"
+mse_prompt_redefinePlaceHolder "AT_SIGN" "4" "BOLD" "NONE"  "DWHITE"
+mse_prompt_redefinePlaceHolder "HOSTNAME_SHORT" "4" "NONE" "NONE" "LBLUE"
+mse_prompt_redefinePlaceHolder "ZCOLOR_01" "4" "BOLD" "NONE"  "DWHITE"
+
+# Atesta alterações do prompt conforme estão atualmente
+mse_prompt_showConfig
+
+# Restaura o padrão anteriormente salvo
+mse_prompt_tempConfigRestore
