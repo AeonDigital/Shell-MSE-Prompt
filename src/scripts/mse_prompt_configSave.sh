@@ -60,11 +60,11 @@ mse_prompt_configSave() {
     # Salva as novas configurações sobre as antigas
     printf "${mseRawFile}" > "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"
     if [ $? == 0 ]; then
+      git -C "${mseInstallationPath}" add . &> /dev/null
+      git -C "${mseInstallationPath}" commit -m "Change prompt configuration" &> /dev/null
+
       mse_inter_alertUser "s" "MSE" "${lbl_generic_save}" "" ""
       mseCode=0
-
-      git -C "${mseInstallationPath}" add .
-      git -C "${mseInstallationPath}" commit -m "Change prompt configuration"
     else
       mseMsgBody+=($(mse_str_replacePlaceHolder "${lbl_generic_fileNotFound}" "[[FILE]]" "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"))
       mseMsgBody+=("- ${lbl_generic_checkConfigFile}")
