@@ -8,7 +8,7 @@
 
 
 #
-# Ação que deve ser executada apenas no momento da instalação deste módulo
+# Ação que deve ser executada apenas no momento da instalação deste módulo.
 mse_module_onInstall() {
   local mseInstallationPath="${HOME}/.config/myShellEnv"
   local mseConfigFilePath="${mseInstallationPath}/config.sh"
@@ -49,4 +49,14 @@ mse_module_onInstall() {
       printf "${mseControlVariables}" >> "${mseConfigFilePath}"
     fi
   fi
+}
+
+
+
+
+
+#
+# Ação que deve ser executada apenas no momento da desinstalação deste módulo.
+mse_module_onUninstall() {
+  local doNothing=""
 }

@@ -105,67 +105,6 @@ declare -gA MSE_MD_TERM_TEMP_PROMPT_CONFIG
 
 
 #
-# Carrega os placeholders disponíveis para uso
-MSE_TMP_MODULE_CONFIG_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-MSE_TMP_PROMPT_PLACEHOLDERS=$(find "${MSE_TMP_MODULE_CONFIG_DIRECTORY}/prompt/placeHolder" -name "*.sh")
-if [ "${MSE_TMP_PROMPT_PLACEHOLDERS}" != "" ]; then
-  while read mseTmpPromptPlaceHolder; do
-    mseTmpPlaceHolderName=$(basename -- "$mseTmpPromptPlaceHolder")
-    mseTmpPlaceHolderName="${mseTmpPlaceHolderName%.*}"
-
-
-    . "${mseTmpPromptPlaceHolder}"
-
-
-    MSE_MD_PROMPT_PLACEHOLDER_NAME+=("${mseTmpPlaceHolderName}")
-    MSE_MD_PROMPT_PLACEHOLDER_SAMPLE[${mseTmpPlaceHolderName}]="${MSE_PLACEHOLDER_SAMPLE}"
-    MSE_MD_PROMPT_PLACEHOLDER_EXAMPLE[${mseTmpPlaceHolderName}]="${MSE_PLACEHOLDER_EXAMPLE}"
-
-  done <<< ${MSE_TMP_PROMPT_PLACEHOLDERS}
-
-  unset mseTmpPromptPlaceHolder
-  unset mseTmpPlaceHolderName
-  unset MSE_PLACEHOLDER_SAMPLE
-  unset MSE_PLACEHOLDER_EXAMPLE
-fi
-unset MSE_TMP_PROMPT_PLACEHOLDERS
-
-
-
-
-
-#
-# Carrega os estilos de prompts disponíveis para uso
-MSE_TMP_PROMPT_STYLES=$(find "${MSE_TMP_MODULE_CONFIG_DIRECTORY}/prompt/style" -name "*.sh")
-if [ "${MSE_TMP_PROMPT_STYLES}" != "" ]; then
-  while read mseTmpPromptStyle; do
-    mseTmpStyleName=$(basename -- "$mseTmpPromptStyle")
-    mseTmpStyleName="${mseTmpStyleName%.*}"
-
-
-    . "${mseTmpPromptStyle}"
-
-
-    MSE_MD_PROMPT_STYLE_NAME+=("${mseTmpStyleName}")
-    MSE_MD_PROMPT_STYLE_EXAMPLE[${mseTmpStyleName}]="${MSE_PROMPT_STYLE_EXAMPLE}"
-    MSE_MD_PROMPT_STYLE_SQUEMA[${mseTmpStyleName}]="${MSE_PROMPT_STYLE_SQUEMA}"
-    MSE_MD_PROMPT_STYLE_PLACEHOLDER[${mseTmpStyleName}]="${MSE_PROMPT_STYLE_PLACEHOLDER}"
-
-  done <<< ${MSE_TMP_PROMPT_STYLES}
-
-  unset mseTmpPromptStyle
-  unset mseTmpStyleName
-  unset MSE_PROMPT_STYLE_EXAMPLE
-  unset MSE_PROMPT_STYLE_SQUEMA
-  unset MSE_PROMPT_STYLE_PLACEHOLDER
-fi
-unset MSE_TMP_PROMPT_STYLES
-
-
-
-
-
-#
 # Triangular terminator
 # Necessita de uma fonte do tipo 'Powerline' para ser mostrada
 # https://github.com/powerline/fonts
