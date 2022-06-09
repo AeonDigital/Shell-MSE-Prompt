@@ -80,7 +80,8 @@ declare -gA MSE_MD_TERM_TEMP_PROMPT_CONFIG
 
 #
 # Armazena o estilo do prompt que está salvo no momento.
-MSE_MD_PROMPT_SELECTED_STYLE_NAME=""
+# [está comentado aqui para não interferir nas configurações locais]
+# MSE_MD_PROMPT_SELECTED_STYLE_NAME=""
 
 
 #
@@ -95,8 +96,9 @@ MSE_MD_PROMPT_SELECTED_STYLE_NAME=""
 #   [PLACEHOLDER]="FONTE FUNDO ATRIBUTO"
 #   [SYMBOLS]="LGREY NONE DEFAULT"
 #
-unset MSE_MD_PROMPT_SELECTED_PH_COLOR
-declare -gA MSE_MD_PROMPT_SELECTED_PH_COLOR
+# [está comentado aqui para não interferir nas configurações locais]
+# unset MSE_MD_PROMPT_SELECTED_PH_COLOR
+# declare -gA MSE_MD_PROMPT_SELECTED_PH_COLOR
 
 
 
@@ -104,7 +106,8 @@ declare -gA MSE_MD_PROMPT_SELECTED_PH_COLOR
 
 #
 # Carrega os placeholders disponíveis para uso
-MSE_TMP_PROMPT_PLACEHOLDERS=$(find "${MSE_TMP_THIS_MODULE_DIRECTORY}/prompt/placeHolder" -name "*.sh")
+MSE_TMP_MODULE_CONFIG_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+MSE_TMP_PROMPT_PLACEHOLDERS=$(find "${MSE_TMP_MODULE_CONFIG_DIRECTORY}/prompt/placeHolder" -name "*.sh")
 if [ "${MSE_TMP_PROMPT_PLACEHOLDERS}" != "" ]; then
   while read mseTmpPromptPlaceHolder; do
     mseTmpPlaceHolderName=$(basename -- "$mseTmpPromptPlaceHolder")
@@ -133,7 +136,7 @@ unset MSE_TMP_PROMPT_PLACEHOLDERS
 
 #
 # Carrega os estilos de prompts disponíveis para uso
-MSE_TMP_PROMPT_STYLES=$(find "${MSE_TMP_THIS_MODULE_DIRECTORY}/prompt/style" -name "*.sh")
+MSE_TMP_PROMPT_STYLES=$(find "${MSE_TMP_MODULE_CONFIG_DIRECTORY}/prompt/style" -name "*.sh")
 if [ "${MSE_TMP_PROMPT_STYLES}" != "" ]; then
   while read mseTmpPromptStyle; do
     mseTmpStyleName=$(basename -- "$mseTmpPromptStyle")
