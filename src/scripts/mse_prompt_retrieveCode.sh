@@ -128,7 +128,7 @@ mse_prompt_retrieveCode() {
   # Substitui o 'pseudo-placeholder' [[NONE]] pelo código que interrompe
   # qualquer estilo de cor anterior 'zerando' assim o estilo deste ponto
   # em diante.
-  local mseOLD='NONE'
+  local mseOLD='mseNONE'
   local mseNEW="${!mseOLD}"
   mseREG='s/\[\['$mseOLD'\]\]/\\[\\'$mseNEW'\\]/g'
   mseRawPromptSquema="$(printf '%s' "$mseRawPromptSquema" | sed -e "${mseREG}")"

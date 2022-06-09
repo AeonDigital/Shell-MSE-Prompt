@@ -8,15 +8,6 @@
 
 
 #
-# Especificação da cor padrão/nula do terminal para ser usada em todos
-# os exemplos (samples) definidos.
-NONE='\e[0m'
-
-
-
-
-
-#
 # Armazena o nome dos Placeholders disponíveis para configuração dos estilos
 # de prompt.
 #
@@ -168,26 +159,6 @@ fi
 unset MSE_TMP_PROMPT_STYLES
 
 
-
-
-#
-# Se o local onde as configurações do prompt devem ser salvas não estiver definida,
-# será usado a configuração do prompt que vem junto com este módulo.
-MSE_TMP_PATH_TO_DEFAULT_PROMPT_CONFIG_FILE="${MSE_TMP_THIS_MODULE_DIRECTORY}/prompt/config.sh"
-if [ -z ${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE+x} ]; then
-  MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE="${MSE_TMP_PATH_TO_DEFAULT_PROMPT_CONFIG_FILE}"
-fi
-#
-# Se o arquivo onde as configurações do prompt devem ser salvas não existe
-# e sendo um valor diferente do arquivo de configurações padrão deste módulo
-# usa o arquivo de configurações padrão como modelo para o arquivo final.
-if [ ! -f "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}" ] && [ "${MSE_TMP_PATH_TO_DEFAULT_PROMPT_CONFIG_FILE}" != "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}" ]; then
-  cp "${MSE_TMP_PATH_TO_DEFAULT_PROMPT_CONFIG_FILE}" "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"
-fi
-#
-# Carrega as configurações do prompt
-. "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"
-unset MSE_TMP_PATH_TO_DEFAULT_PROMPT_CONFIG_FILE
 
 
 

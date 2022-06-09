@@ -9,67 +9,27 @@
 
 #
 # @desc
-# Salva as configurações atualmente definidas do prompt
-# no arquivo indicado na variável 'MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE'.
+# Salva as configurações atualmente definidas do prompt no arquivo de
+# configuração da instância "myShellEnv".
+#
+# Por precaução, criará um arquivo de backup dentro do diretório base
+# do seu "myShellEnv" cujo nome será "config-bk-prompt-DATE.sh"
 mse_prompt_configSave() {
   local mseCode=1
-  local mseMsgTtl
-  declare -a mseMsgBody=()
+  local mseExecResult
 
   local mseInstallationPath="${HOME}/.config/myShellEnv"
-  local msePromptConfigurationDirectory=$(dirname -- "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}")
-  msePromptConfigurationDirectory=$(realpath "${msePromptConfigurationDirectory}")
-
 
   #
-  # Se o arquivo apontado na variável de configuração não existe...
-  if [ "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}" != "" ] && [ ! -f "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}" ]; then
-    mseMsgBody+=($(mse_str_replacePlaceHolder "${lbl_generic_fileNotFound}" "[[FILE]]" "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"))
-    mse_inter_errorAlert "MSE" "${lbl_generic_cannotFoundConfigFile}" "mseMsgBody"
-  else
-
-    #
-    # Inicia o novo arquivo de configuração com os dados atuais
-    local mseRawFile=""
-    mseRawFile+="#!/usr/bin/env bash\n"
-    mseRawFile+="# myShellEnv v 1.0 [aeondigital.com.br]\n"
-    mseRawFile+="\n\n"
-    mseRawFile+="MSE_MD_PROMPT_SELECTED_STYLE_NAME=\"${MSE_MD_PROMPT_SELECTED_STYLE_NAME}\"\n"
-
-
-    #
-    # Identifica os placeholders usados para o estilo do prompt
-    # atualmente definido.
-    declare -a msePSQUEMAPH=(${MSE_MD_PROMPT_STYLE_PLACEHOLDER[${MSE_MD_PROMPT_SELECTED_STYLE_NAME}]// / })
-
-
-    #
-    # Para cada placeholder do estilo selecionado
-    local msePHName
-    local msePHConfig
-    for msePHName in "${msePSQUEMAPH[@]}"; do
-      msePHConfig="${MSE_MD_PROMPT_SELECTED_PH_COLOR[$msePHName]}"
-      mseRawFile+="MSE_MD_PROMPT_SELECTED_PH_COLOR[${msePHName}]=\"${msePHConfig}\"\n"
-    done
-
-
-    #
-    # Salva as configurações atuais no arquivo de recuperação
-    cp "$MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE" "${msePromptConfigurationDirectory}/.promptConfig-bk-$(date +%s).sh"
-    #
-    # Salva as novas configurações sobre as antigas
-    printf "${mseRawFile}" > "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"
-    if [ $? == 0 ]; then
-      git -C "${mseInstallationPath}" add . &> /dev/null
-      git -C "${mseInstallationPath}" commit -m "Change prompt configuration" &> /dev/null
-
-      mse_inter_alertUser "s" "MSE" "${lbl_generic_save}" "" ""
-      mseCode=0
-    else
-      mseMsgBody+=($(mse_str_replacePlaceHolder "${lbl_generic_fileNotFound}" "[[FILE]]" "${MSE_MD_TERM_PATH_TO_PROMPT_CONFIG_FILE}"))
-      mseMsgBody+=("- ${lbl_generic_checkConfigFile}")
-      mseMsgBody+=("- ${lbl_generic_checkPermissions}")
-      mse_inter_errorAlert "MSE" "${lbl_generic_cannotSaveinFile}" "mseMsgBody"
+  # Salva as configurações atuais em um arquivo de recuperação
+  cp "$mseInstallationPath}/config.sh" "${mseInstallationPath}/config-bk-prompt-$(date +%s).sh"
+  if [ $? == 0 ]; then
+    mseExecResult=$(mse_conf_setVariable "${mseInstallationPath}/config.sh" "#" "0" "" "s" "MSE_MD_PROMPT_SELECTED_STYLE_NAME" "${MSE_MD_PROMPT_SELECTED_STYLE_NAME}" "")
+    if [ "${mseExecResult}" == "1" ]; then
+      mseExecResult=$(mse_conf_setVariable "${mseInstallationPath}/config.sh" "#" "0" "" "a" "MSE_MD_PROMPT_SELECTED_PH_COLOR" "${MSE_MD_PROMPT_SELECTED_PH_COLOR}" "")
+      if [ "${mseExecResult}" == "1" ]; then
+        mseCode=0
+      fi
     fi
   fi
 
